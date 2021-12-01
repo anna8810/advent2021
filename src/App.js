@@ -1,10 +1,13 @@
 import React from 'react';
+import Snow from './Snow';
 import Week from './Week'
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
+        <Snow />
+
         <h1>Advent of Code 2021</h1>
 
         <Week {...{
