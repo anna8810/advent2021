@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Week from './Week'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Advent of Code 2021</h1>
+
+        <Week {...{
+          type: 'header'
+        }} />
+
+        <Week {...{
+          dates:[ undefined, undefined, 1, 2, 3, 4, 5]
+        }} />
+
+        <Week {...{
+          dates:[ 6, 7, 8, 9, 10, 11, 12]
+        }} />
+
+        <Week {...{
+          dates:[ 13, 14, 15, 16, 17, 18, 19]
+        }} />
+
+        <Week {...{
+          dates:[ 20, 21, 22, 23, 24, 25, undefined]
+        }} />
+
+      </div>
+    )
+  }
 }
-
-export default App;

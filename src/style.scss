@@ -1,0 +1,60 @@
+body {
+  width: 100vw;
+  height: 100vh;
+
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+h1 {
+  margin-top: 10vmin;
+
+  font-family: 'Rochester';
+  font-size: 8vmin;
+  color: #7c0b0b;
+  text-align: center;
+
+  filter: drop-shadow(0 0 1vmin white);
+  text-shadow: 1vmin 0vmin 1vmin black;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  font-family: 'Rochester';
+  font-weight: bold;
+  color: white;
+}
+
+.day {
+  width: 12vmin;
+  height: 12vmin;
+  padding: 1vmin;
+
+  box-shadow: 0.1vmin 0.1vmin 1vmin black;
+
+  &.header {
+    height: 4vmin;
+
+    font-size: 3vmin;
+    text-align: center;
+
+    background-color: rgb(125 10 10);
+    box-shadow: 0.1vmin 0.1vmin 3vmin black
+  }
+
+  &.true {
+    background-color: rgb(125 10 10 / 60%);;
+  }
+  &.false {
+    background-color: rgb(125 10 10 / 30%);;
+
+  }
+}
+
+.solution {
+  font-size: 3vmin;
+  padding: 2vmin 3vmin;
+  color: rgb(255 225 0);
+}
