@@ -49,14 +49,61 @@ h1 {
   }
   &.false {
     background-color: rgb(125 10 10 / 30%);;
-
   }
 }
 
 .solution {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  width: 100%;
+  height: 10vmin;
+
+  margin: -2.5vmin 0 0 0;
+  padding: 2vmin 0 0 0;
+  cursor: pointer;
+
   font-size: 3vmin;
-  padding: 2vmin 3vmin;
   color: rgb(255 225 0);
 
-  cursor: pointer;
+  div {
+    display: flex;
+  }
+
+  b {
+    display: inline-block;
+    padding-right: 0.5vmin;
+
+    margin-left: 4vmin;
+
+    transition: margin-left 0.5s;
+  }
+
+  i {
+    display: inline-block;
+    overflow: hidden;
+
+    cursor: copy;
+
+    font-style: normal;
+    padding: 0.1vmin 0;
+
+    opacity: 0;
+    max-width: 0;
+    transition: max-width 0.5s;
+  }
+
+  &:hover {
+    b {
+      margin-left: 0;
+      transition: margin-left 1s;
+    }
+
+    i {
+      opacity: 1;
+      max-width: 150px;
+      transition: opacity 1s, max-width 1s;
+    }
+  }
 }

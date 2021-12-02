@@ -2,13 +2,28 @@ import React from 'react';
 import { Code } from './Code'
 
 export default class Day extends React.Component {
+  copyText = (e) => {
+    const value = e.target.textContent
+    navigator.clipboard.writeText(value)
+  }
+
   create = (answers) => {
     const { first = false, second = false } = answers
 
     return (
       <div className="solution">
-        {first && '✯'}
-        {second && '✯'}
+        {first &&
+          <div>
+            <b>✯</b>
+            <i onClick={this.copyText}>{first}</i>
+          </div>
+        }
+        {second &&
+          <div>
+            <b>✯</b>
+            <i onClick={this.copyText}>{second}</i>
+          </div>
+        }
       </div>
     )
   }
