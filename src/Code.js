@@ -23,24 +23,28 @@ exports.Code = {
     const result = input.reduce((acc, curr) => {
       switch (curr.direction) {
         case 'up': {
-          acc.depth -= curr.distance
+          acc.depth1 -= curr.distance
+          acc.aim -= curr.distance
           break
         }
         case 'down': {
-          acc.depth += curr.distance
+          acc.depth1 += curr.distance
+          acc.aim += curr.distance
           break
         }
         default: {
           acc.horizontal += curr.distance
+          acc.depth2 += (acc.aim * curr.distance)
           break
         }
       }
 
       return acc
-    }, { horizontal: 0, depth: 0 })
+    }, { horizontal: 0, depth1: 0, depth2: 0, aim: 0 })
 
-    const first = result.horizontal * result.depth
+    const first = result.horizontal * result.depth1
+    const second = result.horizontal * result.depth2
 
-    return { first, second: false }
+    return { first, second }
   }
 }
