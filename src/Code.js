@@ -1,7 +1,7 @@
 exports.Code = {
-  1: (test) => {
+  1: () => {
     const data = require('./data/input1.js')
-    const input = test ? data.test : data.input
+    const input = data.input
 
     const result = input.reduce((acc, curr, i) => {
       curr > input[i - 1] && acc.first++
@@ -14,5 +14,33 @@ exports.Code = {
     }, { first: 0, second: 0})
 
     return result
+  },
+
+  2: () => {
+    const data = require('./data/input2.js')
+    const input = data.input
+
+    const result = input.reduce((acc, curr) => {
+      switch (curr.direction) {
+        case 'up': {
+          acc.depth -= curr.distance
+          break
+        }
+        case 'down': {
+          acc.depth += curr.distance
+          break
+        }
+        default: {
+          acc.horizontal += curr.distance
+          break
+        }
+      }
+
+      return acc
+    }, { horizontal: 0, depth: 0 })
+
+    const first = result.horizontal * result.depth
+
+    return { first, second: false }
   }
 }
