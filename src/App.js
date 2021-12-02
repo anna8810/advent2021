@@ -1,6 +1,7 @@
-import React from 'react';
-import Snow from './Snow';
+import React from 'react'
+import Snow from './Snow'
 import Week from './Week'
+import Footer from './Footer'
 
 export default class App extends React.Component {
   render() {
@@ -30,6 +31,7 @@ export default class App extends React.Component {
           dates:[ 20, 21, 22, 23, 24, 25, undefined]
         }} />
 
+        <Footer />
       </div>
     )
   }

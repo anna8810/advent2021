@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { Code } from './Code'
 
 export default class Day extends React.Component {
