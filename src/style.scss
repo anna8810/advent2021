@@ -61,7 +61,7 @@ h1 {
   height: 10vmin;
 
   margin: -2.5vmin 0 0 0;
-  padding: 2vmin 0 0 0;
+  padding: 1vmin 0 0 0;
   cursor: pointer;
 
   font-size: 3vmin;
@@ -69,42 +69,25 @@ h1 {
 
   div {
     display: flex;
-  }
-
-  b {
-    display: inline-block;
-    padding-right: 0.5vmin;
-
-    margin-left: 4vmin;
-
-    transition: margin-left 0.5s;
+    align-items: center;
+    flex-direction: column;
   }
 
   i {
-    display: inline-block;
     overflow: hidden;
-
     cursor: copy;
 
     font-style: normal;
     font-size: 2vmin;
-    padding: 0.8vmin 0;
 
     opacity: 0;
-    max-width: 0;
-    transition: max-width 0.5s;
+    max-height: 0;
+    transition: opacity 0.5s, max-height 0.5s;
   }
 
-  &:hover {
-    b {
-      margin-left: 0;
-      transition: margin-left 1s;
-    }
-
-    i {
-      opacity: 1;
-      max-width: 150px;
-      transition: opacity 1s, max-width 1s;
-    }
+  &:hover i {
+    opacity: 1;
+    max-height: 150px;
+    transition: opacity 1s, max-height 1s;
   }
 }
