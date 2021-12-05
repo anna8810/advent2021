@@ -46,5 +46,35 @@ exports.Code = {
     const second = result.horizontal * result.depth2
 
     return { first, second }
+  },
+
+  3: () => {
+    const data = require('./data/input3')
+    const input = data.input
+
+    const length = input.length
+
+    const result = input.reduce((acc, curr) => {
+      for (let i = 0; i < curr.length; i++) {
+        const bit = curr[i]
+
+        if (!acc[i]) acc[i] = 0
+
+        acc[i] += Number(bit)
+      }
+
+      return acc
+    }, []).map(v => (v > length / 2) ? 1 : 0)
+
+    const binarys = result.reduce((acc, curr) => {
+      acc.gamma += curr ? '1' : '0'
+      acc.epsilon += curr ? '0' : '1'
+
+      return acc
+    }, { gamma: '', epsilon: '' })
+
+    const first = parseInt(binarys.gamma, 2) * parseInt(binarys.epsilon, 2)
+
+    return { first, second: false}
   }
 }
