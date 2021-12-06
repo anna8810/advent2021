@@ -75,6 +75,32 @@ exports.Code = {
 
     const first = parseInt(binarys.gamma, 2) * parseInt(binarys.epsilon, 2)
 
-    return { first, second: false}
+
+    const findCommon = (array, pos, type) => {
+      const sum = array.reduce((acc, curr) => acc + Number(curr[pos]), 0)
+
+      if (type === 'most') {
+        return (sum >= array.length / 2) ? '1' : '0'
+      } else {
+        return (sum < array.length / 2) ? '1' : '0'
+      }
+    }
+
+    const filterCommon = ({ array, index, type }) => {
+      const most = findCommon(array, index, type)
+      const filtered = array.filter(binary => binary[index] === most)
+
+      if (filtered.length > 1) {
+        return filterCommon({ array: filtered, index: index + 1, type})
+      } else {
+        return parseInt(filtered[0], 2)
+      }
+    }
+
+    const oxygen = filterCommon({ array: input, index: 0, type: 'most'})
+    const co2 = filterCommon({ array: input, index: 0, type: 'least'})
+    const second = oxygen * co2
+
+    return { first, second}
   }
 }
