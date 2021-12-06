@@ -102,5 +102,58 @@ exports.Code = {
     const second = oxygen * co2
 
     return { first, second}
+  },
+
+  4: () => {
+    const data = require('./data/input4')
+    const input = data.input
+
+    const boardData = input.boards.reduce((acc, curr) => {
+      const data = { rows: [], cols: [], sum: 0}
+
+      curr.forEach((row, r) => {
+        data.rows.push(0)
+        data.cols.push(0)
+
+        data.sum += row.reduce((sum, value) => sum + value)
+      })
+
+      acc.push(data)
+
+      return acc
+    }, [])
+
+    const drawNumber = (index) => {
+      const number = input.numbers[index]
+
+      let bingo = false
+      input.boards.forEach((board, b) => {
+        board.find((row, r) => {
+          return row.find((value, c) => {
+            if (value === number) {
+              boardData[b].rows[r]++
+              boardData[b].cols[c]++
+              boardData[b].sum -= value
+
+              if (boardData[b].rows.find(hits => hits === 5) ||boardData[b].cols.find(hits => hits === 5)) {
+                bingo = boardData[b].sum * number
+              }
+            }
+
+            return value === number
+          })
+        })
+      })
+
+      if (bingo) {
+        return bingo
+      } else {
+        return drawNumber(index + 1)
+      }
+    }
+
+    const first = drawNumber(0)
+
+    return { first, second: false }
   }
 }
