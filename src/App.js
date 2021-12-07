@@ -6,7 +6,7 @@ import Footer from './Footer'
 export default class App extends React.Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Snow />
 
         <h1>Advent of Code 2021</h1>
@@ -32,7 +32,7 @@ export default class App extends React.Component {
         }} />
 
         <Footer />
-      </div>
+      </React.Fragment>
     )
   }
 }

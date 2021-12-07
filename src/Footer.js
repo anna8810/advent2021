@@ -31,7 +31,7 @@ export default class Week extends React.Component {
           Advent Of Code
         </a>
 
-        <div> Anna Flisberg </div>
+        <p> Anna Flisberg </p>
       </div>
     )
   }
