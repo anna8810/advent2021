@@ -109,7 +109,7 @@ exports.Code = {
     const input = data.input
 
     const boardData = input.boards.reduce((acc, curr) => {
-      const data = { rows: [], cols: [], sum: 0}
+      const data = { rows: [], cols: [], sum: 0, won: false}
 
       curr.forEach((row, r) => {
         data.rows.push(0)
@@ -123,37 +123,46 @@ exports.Code = {
       return acc
     }, [])
 
-    const drawNumber = (index) => {
-      const number = input.numbers[index]
+    const drawNumber = (numberIndex, result) => {
+      if (numberIndex > input.numbers.length) return result
+
+      const number = input.numbers[numberIndex]
 
       let bingo = false
       input.boards.forEach((board, b) => {
-        board.find((row, r) => {
-          return row.find((value, c) => {
-            if (value === number) {
-              boardData[b].rows[r]++
-              boardData[b].cols[c]++
-              boardData[b].sum -= value
+        if (!boardData[b].won) {
+          board.find((row, r) => {
+            return row.find((value, c) => {
+              if (value === number) {
+                boardData[b].rows[r]++
+                boardData[b].cols[c]++
+                boardData[b].sum -= value
 
-              if (boardData[b].rows.find(hits => hits === 5) ||boardData[b].cols.find(hits => hits === 5)) {
-                bingo = boardData[b].sum * number
+                if (boardData[b].rows.find(hits => hits === 5) ||boardData[b].cols.find(hits => hits === 5)) {
+                  boardData[b].won = true
+                  bingo = boardData[b].sum * number
+                }
               }
-            }
 
-            return value === number
+              return value === number
+            })
           })
-        })
+        }
       })
 
       if (bingo) {
-        return bingo
+        result.second = bingo
+
+        if (!result.first) result.first = bingo
+
+        return drawNumber(numberIndex + 1, result)
       } else {
-        return drawNumber(index + 1)
+        return drawNumber(numberIndex + 1, result)
       }
     }
 
-    const first = drawNumber(0)
+    const { first, second } = drawNumber(0, {})
 
-    return { first, second: false }
+    return { first, second }
   }
 }
