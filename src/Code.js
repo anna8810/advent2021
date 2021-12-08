@@ -174,8 +174,11 @@ exports.Code = {
     const grid2 = []
 
     const { first, second } = input.reduce((result, line) => {
-      let [x1, y1] = line[0]
-      const [x2, y2] = line[1]
+      let x1 = line[0][0]
+      let y1 = line[0][1]
+
+      const x2 = line[1][0]
+      const y2 = line[1][1]
 
       const diagonal = (x1 !== x2) && (y1 !== y2)
 
