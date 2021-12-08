@@ -217,9 +217,9 @@ exports.Code = {
 
     const countFishes = (days) => {
       const timers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-      for (const timer of input) {
+      input.forEach(timer => {
         timers[timer]++
-      }
+      })
 
       for (let i = 0; i < days; i++) {
         const newFishes = timers.shift()
