@@ -164,5 +164,52 @@ exports.Code = {
     const { first, second } = drawNumber(0, {})
 
     return { first, second }
+  },
+
+  5: () => {
+    const data = require('./data/input5')
+    const input = data.input
+
+    const grid = []
+    input.forEach(line => {
+      const l1 = line[0]
+      const l2 = line[1]
+
+      // COL - Vertical
+      if (l1[0] === l2[0]) {
+        const min = Math.min(l2[1], l1[1])
+        const max = Math.max(l2[1], l1[1])
+
+        if (!grid[l1[0]]) grid[l1[0]] = []
+
+        const row = grid[l1[0]]
+        for (let i = min; i <= max; i++) {
+          row[i] = row[i] === undefined ? 1 : row[i] + 1
+        }
+      }
+
+      // ROW - Horisontal
+      if (l1[1] === l2[1]) {
+        const min = Math.min(l2[0], l1[0])
+        const max = Math.max(l2[0], l1[0])
+
+        for (let i = min; i <= max; i++) {
+          if (!grid[i]) grid[i] = []
+
+          const row = grid[i]
+
+          row[l1[1]] = row[l1[1]] === undefined ? 1 : row[l1[1]] + 1
+        }
+      }
+    })
+    const first = grid.reduce((total, row) => {
+      const count = row.reduce((count, value) => {
+        return value >= 2 ? count + 1 : count
+      }, 0)
+
+      return total + count
+    }, 0)
+
+    return { first, second: false }
   }
 }
