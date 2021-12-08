@@ -170,46 +170,41 @@ exports.Code = {
     const data = require('./data/input5')
     const input = data.input
 
-    const grid = []
-    input.forEach(line => {
-      const l1 = line[0]
-      const l2 = line[1]
+    const grid1 = []
+    const grid2 = []
 
-      // COL - Vertical
-      if (l1[0] === l2[0]) {
-        const min = Math.min(l2[1], l1[1])
-        const max = Math.max(l2[1], l1[1])
+    const { first, second } = input.reduce((result, line) => {
+      let [x1, y1] = line[0]
+      const [x2, y2] = line[1]
 
-        if (!grid[l1[0]]) grid[l1[0]] = []
+      const diagonal = (x1 !== x2) && (y1 !== y2)
 
-        const row = grid[l1[0]]
-        for (let i = min; i <= max; i++) {
-          row[i] = row[i] === undefined ? 1 : row[i] + 1
+      let done = false
+      while (!done) {
+        done = ((x1 === x2) && (y1 === y2))
+
+        if (!diagonal) {
+          grid1[x1] = grid1[x1] === undefined ? [] : grid1[x1]
+          grid1[x1][y1] = grid1[x1][y1] === undefined ? 1 : grid1[x1][y1] + 1
+
+          grid1[x1][y1] === 2 && result.first++
         }
+
+        grid2[x1] = grid2[x1] === undefined ? [] : grid2[x1]
+        grid2[x1][y1] = grid2[x1][y1] === undefined ? 1 : grid2[x1][y1] + 1
+
+        grid2[x1][y1] === 2 && result.second++
+
+        if (x1 < x2) x1++
+        else if (x1 > x2) x1--
+
+        if (y1 < y2) y1++
+        else if (y1 > y2) y1--
       }
 
-      // ROW - Horisontal
-      if (l1[1] === l2[1]) {
-        const min = Math.min(l2[0], l1[0])
-        const max = Math.max(l2[0], l1[0])
+      return result
+    }, { first: 0, second: 0})
 
-        for (let i = min; i <= max; i++) {
-          if (!grid[i]) grid[i] = []
-
-          const row = grid[i]
-
-          row[l1[1]] = row[l1[1]] === undefined ? 1 : row[l1[1]] + 1
-        }
-      }
-    })
-    const first = grid.reduce((total, row) => {
-      const count = row.reduce((count, value) => {
-        return value >= 2 ? count + 1 : count
-      }, 0)
-
-      return total + count
-    }, 0)
-
-    return { first, second: false }
+    return { first, second }
   }
 }
