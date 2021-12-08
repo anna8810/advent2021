@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/advent2021/static/css/main.97a82fde.chunk.css",
-    "main.js": "/advent2021/static/js/main.dc9332dc.chunk.js",
-    "main.js.map": "/advent2021/static/js/main.dc9332dc.chunk.js.map",
+    "main.css": "/advent2021/static/css/main.9e2700cc.chunk.css",
+    "main.js": "/advent2021/static/js/main.53fdffef.chunk.js",
+    "main.js.map": "/advent2021/static/js/main.53fdffef.chunk.js.map",
     "runtime-main.js": "/advent2021/static/js/runtime-main.fdcc542b.js",
     "runtime-main.js.map": "/advent2021/static/js/runtime-main.fdcc542b.js.map",
     "static/js/2.f3223185.chunk.js": "/advent2021/static/js/2.f3223185.chunk.js",
     "static/js/2.f3223185.chunk.js.map": "/advent2021/static/js/2.f3223185.chunk.js.map",
     "index.html": "/advent2021/index.html",
-    "static/css/main.97a82fde.chunk.css.map": "/advent2021/static/css/main.97a82fde.chunk.css.map",
+    "static/css/main.9e2700cc.chunk.css.map": "/advent2021/static/css/main.9e2700cc.chunk.css.map",
     "static/js/2.f3223185.chunk.js.LICENSE.txt": "/advent2021/static/js/2.f3223185.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.fdcc542b.js",
     "static/js/2.f3223185.chunk.js",
-    "static/css/main.97a82fde.chunk.css",
-    "static/js/main.dc9332dc.chunk.js"
+    "static/css/main.9e2700cc.chunk.css",
+    "static/js/main.53fdffef.chunk.js"
   ]
 }
