@@ -209,5 +209,27 @@ exports.Code = {
     }, { first: 0, second: 0})
 
     return { first, second }
+  },
+
+  6: () => {
+    const data = require('./data/input6')
+    const input = data.input
+
+    const fish = [...input]
+
+    let days = 80
+    while (days) {
+      fish.forEach((timer, i) => {
+        fish[i] = timer === 0 ? 6 : timer - 1
+
+        timer === 0 && fish.push(8)
+      })
+
+      days--
+    }
+
+    const first = fish.length
+
+    return { first, second: false }
   }
 }
