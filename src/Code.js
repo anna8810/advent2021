@@ -215,21 +215,25 @@ exports.Code = {
     const data = require('./data/input6')
     const input = data.input
 
-    const fish = [...input]
+    const countFishes = (days) => {
+      const timers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+      for (const timer of input) {
+        timers[timer]++
+      }
 
-    let days = 80
-    while (days) {
-      fish.forEach((timer, i) => {
-        fish[i] = timer === 0 ? 6 : timer - 1
+      for (let i = 0; i < days; i++) {
+        const newFishes = timers.shift()
 
-        timer === 0 && fish.push(8)
-      })
+        timers.push(newFishes)
+        timers[6] += newFishes
+      }
 
-      days--
+      return timers.reduce((a, b) => a + b, 0)
     }
 
-    const first = fish.length
+    const first = countFishes(80)
+    const second = countFishes(256)
 
-    return { first, second: false }
+    return { first, second }
   }
 }
