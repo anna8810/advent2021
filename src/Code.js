@@ -241,7 +241,7 @@ exports.Code = {
     const data = require('./data/input7')
     const input = data.input
 
-    const sorted = [...input].sort((a, b) => a-b)
+    const sorted = input.slice().sort((a, b) => a - b)
     const index = Math.floor(sorted.length / 2)
     const median = sorted[index]
 
