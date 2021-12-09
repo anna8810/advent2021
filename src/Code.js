@@ -251,8 +251,17 @@ exports.Code = {
       return total += fuel
     }, 0)
 
-    console.log("🚫 ~ first ~ first", first)
 
-    return { first, second: false }
+    const total = input.reduce((total, pos) => total += pos)
+    const mean = Math.floor(total / input.length)
+
+    const second = input.reduce((total, pos) => {
+      const n = Math.abs(pos - mean)
+      const fuel = (n / 2) * (1 + n)
+
+      return total += fuel
+    }, 0)
+
+    return { first, second }
   }
 }
