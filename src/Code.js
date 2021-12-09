@@ -235,5 +235,24 @@ exports.Code = {
     const second = countFishes(256)
 
     return { first, second }
+  },
+
+  7: () => {
+    const data = require('./data/input7')
+    const input = data.input
+
+    const sorted = [...input].sort((a, b) => a-b)
+    const index = Math.floor(sorted.length / 2)
+    const median = sorted[index]
+
+    const first = input.reduce((total, pos) => {
+      const fuel = Math.abs(pos - median)
+
+      return total += fuel
+    }, 0)
+
+    console.log("🚫 ~ first ~ first", first)
+
+    return { first, second: false }
   }
 }
