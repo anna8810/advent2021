@@ -263,5 +263,81 @@ exports.Code = {
     }, 0)
 
     return { first, second }
+  },
+
+  8: () => {
+    const data = require('./data/input8')
+    const input = data.input
+
+    const unique = [ 2, 3, 4, 7 ]
+    const first = input.reduce((instances, data) => {
+      data.outputValues.forEach(value => unique.includes(value.length) && instances++ )
+
+      return instances
+    }, 0)
+
+    const sortedInput = input.map(data => {
+      const signalPatterns = data.signalPatterns.map(p => p.split('').sort().join(''))
+      const outputValues = data.outputValues.map(v => v.split('').sort().join(''))
+
+      return { signalPatterns, outputValues }
+    })
+
+    const includes = (a, b) => {
+      return a.split('').filter(letter => b.includes(letter)).length === b.length
+    }
+
+    const getKey = (signalPatterns) => {
+      const key = []
+
+      // UNIQUES
+      key[1] = signalPatterns.find(p => p.length === 2)
+      key[4] = signalPatterns.find(p => p.length === 4)
+      key[7] = signalPatterns.find(p => p.length === 3)
+      key[8] = signalPatterns.find(p => p.length === 7)
+
+      // FIVES
+      const fives = signalPatterns.filter(p => p.length === 5)
+
+      key[3] = fives.find(p => includes(p, key[1]))
+      fives.splice(fives.indexOf(key[3]), 1)
+
+      key[5] = fives.find(p => p.split('').filter(letter => key[4].includes(letter)).length === (key[4].length - 1))
+      fives.splice(fives.indexOf(key[5]), 1)
+
+      key[2] = fives[0]
+
+      // SIXES
+      const sixes = signalPatterns.filter(p => p.length === 6)
+
+      key[6] = sixes.find(p => !includes(p, key[1]))
+      sixes.splice(sixes.indexOf(key[6]), 1)
+
+      key[9] = sixes.find(p => includes(p, key[3]))
+      sixes.splice(sixes.indexOf(key[9]), 1)
+
+      key[0] = sixes[0]
+
+      return key
+    }
+
+    const getValue = (outputValues, key) => {
+      const value = outputValues.reduce((value, output) => {
+        const digit = key.indexOf(output.split('').sort().join(''))
+
+        return value + digit
+      }, '')
+
+      return value
+    }
+
+    const second = sortedInput.reduce((total, { signalPatterns, outputValues }) => {
+      const key = getKey(signalPatterns)
+      const value = getValue(outputValues, key)
+
+      return total + parseInt(value)
+    }, 0)
+
+    return { first, second }
   }
 }
