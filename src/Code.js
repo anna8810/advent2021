@@ -339,5 +339,36 @@ exports.Code = {
     }, 0)
 
     return { first, second }
+  },
+
+  9: () => {
+    const data = require('./data/input9')
+    const input = data.input
+
+    const cols = input.length - 1
+    const rows = input[0].length - 1
+    console.log("🚫 ~ rows", rows)
+
+    const lowPoints = input.reduce((points, row, y) => {
+      row.forEach((point, x) => {
+        const above = (y > 0 && (input[y - 1][x] <= point)) || false
+        const below = (y < cols && (input[y + 1][x] <= point)) || false
+        const left = (x > 0 && (input[y][x - 1] <= point)) || false
+        const right = (x < rows && (input[y][x + 1] <= point)) || false
+
+        if (!above && !below && !left && ! right) {
+          points.push(point)
+          // console.log("🚫 ~ row.forEach ~ point", point, x, y)
+        }
+      })
+
+      return points
+    }, [])
+
+    console.log("🚫 ~ first ~ lowPoints", lowPoints)
+    const first = lowPoints.reduce((riskLevel, height) => {
+      return riskLevel + height + 1
+    }, 0)
+    return { first, second: false }
   }
 }
