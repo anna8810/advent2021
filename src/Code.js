@@ -347,9 +347,25 @@ exports.Code = {
 
     const cols = input.length - 1
     const rows = input[0].length - 1
-    console.log("🚫 ~ rows", rows)
 
-    const lowPoints = input.reduce((points, row, y) => {
+    const clustered = input.map(row => row.slice())
+
+    const floodFill = (y, x, matrix) => {
+      if (matrix[y][x] === 9) return 0
+
+      matrix[y][x] = 9
+
+      let size = 1
+
+      if (y - 1 >= 0) size += floodFill(y - 1, x, matrix)
+      if (y + 1 < matrix.length) size += floodFill(y + 1, x, matrix)
+      if (x - 1 >= 0) size += floodFill(y, x - 1, matrix)
+      if (x + 1 < matrix[y].length) size += floodFill(y, x + 1, matrix)
+
+      return size
+    }
+
+    const output = input.reduce((output, row, y) => {
       row.forEach((point, x) => {
         const above = (y > 0 && (input[y - 1][x] <= point)) || false
         const below = (y < cols && (input[y + 1][x] <= point)) || false
@@ -357,18 +373,25 @@ exports.Code = {
         const right = (x < rows && (input[y][x + 1] <= point)) || false
 
         if (!above && !below && !left && ! right) {
-          points.push(point)
-          // console.log("🚫 ~ row.forEach ~ point", point, x, y)
+          output.lowPoints.push(point)
         }
+
+        const size = floodFill(y, x, clustered)
+        if (size > 0) {
+          output.basins.push(size)
+        }
+
       })
 
-      return points
-    }, [])
+      return output
+    }, { lowPoints: [], basins: [] })
 
-    console.log("🚫 ~ first ~ lowPoints", lowPoints)
-    const first = lowPoints.reduce((riskLevel, height) => {
+    const first = output.lowPoints.reduce((riskLevel, height) => {
       return riskLevel + height + 1
     }, 0)
-    return { first, second: false }
+
+    const second = output.basins.sort((a, b) => b - a).slice(0, 3).reduce((result, size) => result * size, 1)
+
+    return { first, second }
   }
 }
