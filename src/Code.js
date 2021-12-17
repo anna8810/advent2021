@@ -393,5 +393,62 @@ exports.Code = {
     const second = output.basins.sort((a, b) => b - a).slice(0, 3).reduce((result, size) => result * size, 1)
 
     return { first, second }
+  },
+
+  10: () => {
+    const data = require('./data/input10')
+    const input = data.input
+
+    const pairs = {
+      '(' : ')',
+      '[' : ']',
+      '{' : '}',
+      '<' : '>',
+    }
+
+    const corruptPoints = {
+      ')' : 3,
+      ']' : 57,
+      '}' : 1197,
+      '>' : 25137
+    }
+
+    const autocompletePoints = {
+      '(' : 1 ,
+      '[' : 2,
+      '{' : 3,
+      '<' : 4
+    }
+
+    const { first, autocomplete } = input.reduce((output, line) => {
+      const stack = []
+
+      const corrupt = line.split('').find(character => {
+        if (pairs[character]) {
+          stack.push(character)
+        } else {
+          const last = stack.pop()
+          return pairs[last] !== character
+        }
+
+        return false
+      })
+
+      if (corrupt) {
+        output.first += corruptPoints[corrupt]
+      } else {
+        const score = stack.reverse().reduce((score, character) => {
+          return score * 5 + autocompletePoints[character]
+        }, 0)
+
+        output.autocomplete.push(score)
+      }
+
+      return output
+    }, { first: 0, autocomplete: [] })
+
+    const second = autocomplete.sort((a, b) => a - b)[Math.floor(autocomplete.length / 2)]
+
+    return { first, second }
   }
 }
