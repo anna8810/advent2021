@@ -459,10 +459,10 @@ exports.Code = {
     const { matrix, octopuses } = input.reduce((data, line) => {
       data.matrix.push((line.split('')))
       data.octopuses += line.length
-      
+
       return data
     }, { matrix: [], octopuses: 0 })
-    
+
     const increaseEnergy = (y, x, flashed) => {
       // Octopus has alredy flashed
       if (flashed.has(`${y} : ${x}`)) return
@@ -473,11 +473,11 @@ exports.Code = {
         // FLASH
         matrix[y][x] = 0
         flashed.add(`${y} : ${x}`)
-        
+
         // Check all 8 adjacent octopuses
         for (let i = -1; i <= 1; i++) {
           for (let j = -1; j <= 1; j++) {
-            
+
             // Skip current octopus
             if (i === 0 && j === 0) continue
 
@@ -490,13 +490,13 @@ exports.Code = {
         }
       }
     }
-    
+
     const doStep = () => {
       const flashed = new Set()
 
       for (let y = 0; y < matrix.length; y++) {
         const row = matrix[y]
-        
+
         for (let x = 0; x < row.length; x++) {
           increaseEnergy(y, x, flashed)
         }
@@ -504,18 +504,59 @@ exports.Code = {
 
       return flashed.size
     }
-    
+
     let first = 0
     let second = 0
-    
+
     let flashes = 0
     while (flashes !== octopuses) {
       flashes = doStep()
-      
+
       first += flashes
       second++
     }
 
     return { first, second }
+  },
+
+  12: () => {
+    const data = require('./data/input12')
+    const input = data.input
+
+    const connections = {}
+    input.forEach(([ from, to ]) => {
+      if (!connections[from]) connections[from] = []
+      if (!connections[to]) connections[to] = []
+
+      connections[from].push(to)
+      connections[to].push(from)
+    })
+
+    const isSmallCave = (cave) => {
+      return cave === cave.toLowerCase()
+    }
+
+    const dfs = (cave, visitedCaves = [], paths) => {
+      visitedCaves.push(cave)
+
+      if (cave === 'end') {
+        paths.push(visitedCaves)
+        return
+      }
+
+      connections[cave].forEach(neighbour => {
+        // Skip if the neighbouring cave is small and already visited
+        if (!(isSmallCave(neighbour) && visitedCaves.includes(neighbour))) {
+          dfs(neighbour, visitedCaves.slice(), paths)
+        }
+      })
+    }
+
+    const paths = []
+    dfs('start', [], paths)
+
+    const first = paths.length
+
+    return { first, second: false }
   }
 }
