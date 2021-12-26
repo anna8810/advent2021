@@ -536,27 +536,57 @@ exports.Code = {
       return cave === cave.toLowerCase()
     }
 
-    const dfs = (cave, visitedCaves = [], paths) => {
-      visitedCaves.push(cave)
+    const dfs = (cave, visitedCaves1, visitedCaves2, doubleVisit) => {
+        // FIRST
+      if (visitedCaves1) {
+        visitedCaves1.push(cave)
 
-      if (cave === 'end') {
-        paths.push(visitedCaves)
-        return
+        if (cave === 'end') {
+          paths1.push(visitedCaves1)
+          return
+        }
+      }
+
+      // SECOND
+      if (visitedCaves2) {
+        visitedCaves2.push(cave)
+
+        if (cave === 'end') {
+          paths2.push(visitedCaves2)
+          return
+        }
       }
 
       connections[cave].forEach(neighbour => {
-        // Skip if the neighbouring cave is small and already visited
-        if (!(isSmallCave(neighbour) && visitedCaves.includes(neighbour))) {
-          dfs(neighbour, visitedCaves.slice(), paths)
+        // FIRST
+        if (visitedCaves1) {
+          // Skip if the neighbouring cave is small and already visited
+          if (!(isSmallCave(neighbour) && visitedCaves1.includes(neighbour))) {
+            dfs(neighbour, visitedCaves1.slice(), false)
+          }
+        }
+
+        // SECOND
+        if (visitedCaves2 && neighbour !== 'start') {
+          if (isSmallCave(neighbour) && visitedCaves2.includes(neighbour)) {
+            if (!doubleVisit && (visitedCaves2.filter(c => c === neighbour).length < 2)) {
+              dfs(neighbour, false, visitedCaves2.slice(), true)
+            }
+          } else {
+            dfs(neighbour, false, visitedCaves2.slice(), doubleVisit)
+          }
         }
       })
     }
 
-    const paths = []
-    dfs('start', [], paths)
+    const paths1 = []
+    const paths2 = []
 
-    const first = paths.length
+    dfs('start', [], [])
 
-    return { first, second: false }
+    const first = paths1.length
+    const second = paths2.length
+
+    return { first, second }
   }
 }
