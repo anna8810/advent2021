@@ -524,7 +524,10 @@ exports.Code = {
     const input = data.input
 
     const connections = {}
-    input.forEach(([ from, to ]) => {
+    input.forEach(data => {
+      const from = data[0]
+      const to = data[1]
+
       if (!connections[from]) connections[from] = []
       if (!connections[to]) connections[to] = []
 
@@ -557,6 +560,78 @@ exports.Code = {
 
     const first = paths.length
 
+    return { first, second: false }
+  }, 
+
+  13: () => {
+    const data = require('./data/input13')
+    const input = data.input
+
+    const dots = input.dots.reduce((dotSet, dot) => {
+      return dotSet.add(dot)
+    }, new Set())
+
+    const axes = [ 'x', 'y' ]
+
+    const getMax = (dots) => {
+      const max =  [ 0, 0 ]
+
+      dots.forEach(dot => {
+        const dotArray = dot.split(',')
+        max[0] = Math.max(max[0], dotArray[0])
+        max[1] = Math.max(max[1], dotArray[1])
+      })
+
+      return max
+    }
+
+    const fold = (instructions, dots) => {
+      const { axis, value } = instructions
+
+      const pos = axes.indexOf(axis)
+      const max = getMax(dots)
+      
+      const newDots = new Set()
+      dots.forEach(dot => {
+        const dotArray = dot.split(',')
+        
+        if (dotArray[pos] < value) {
+          newDots.add(dot)
+        } else if (dotArray[pos] > value) {
+          dotArray[pos] = max[pos] - dotArray[pos]
+          newDots.add(dotArray.join(','))
+        }
+      })
+
+      return newDots
+    }
+
+    const draw = (dots) => {
+      const max = getMax(dots)
+
+      let output = ''
+      for (let y = 0; y <= max[1]; y++) {
+        output += '\n'
+        
+        for (let x = 0; x <= max[0]; x++) {
+          output += dots.has(`${x},${y}`) ? '¤' : ' '
+        }
+      }
+      console.log("🚀 ~ file: Code.js ~ line 602 ~ max ~ max", max)
+      return output
+    }
+
+    const firstFold = fold(input.folds[0], dots)
+    const first = firstFold.size
+
+    let finalFold = dots
+    input.folds.forEach(instructions => {
+      finalFold = fold(instructions, finalFold)
+    })
+
+    const test = draw(finalFold)
+    console.log("🚀 ~ file: Code.js ~ line 617 ~ test", test)
+    
     return { first, second: false }
   }
 }
